@@ -1,55 +1,41 @@
-package gestionvacacionesbackend.gestionvacaciones.persistence.entities;
+package gestionvacacionesbackend.gestionvacaciones.domain.dto;
 
+import gestionvacacionesbackend.gestionvacaciones.persistence.entities.VacationRequestEntity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
-
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Table(name = "empleado")
-@Entity
-@Getter
-@Setter
-public class EmployeeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Employee {
+
     private Long id;
-    @Column(name = "documento")
+
     private Integer document;
-    @Column(name = "tipo_documento")
+
     private String documentType;
-    @Column(name = "nombres")
+
     private String names;
-    @Column(name = "apellidos")
+
     private String surnames;
-    @Column(name = "telefono")
+
     private Integer phone;
-    @Column(name = "cargo")
+
     private String charge;
-    @Column(name = "direccion")
+
     private String address;
-    @Column(name = "fecha_ingreso")
+
     private LocalDate admissionDate;
-    @Column(name = "fecha_retiro")
+
     private LocalDate withdrawalDate;
-    @Column(name = "tipo_contrato")
+
     private String typeContract;
-    @Column(name = "estado")
+
     private String state;
     private String supervisor;
-    @OneToMany(mappedBy = "employee")
-    @JsonManagedReference
-    private List<VacationRequestEntity> vacation;
 
-
-    public EmployeeEntity() {
+    public Employee() {
     }
 
-    public EmployeeEntity(Long id, Integer document, String documentType, String names, String surnames, Integer phone, String charge, String address, LocalDate admissionDate, LocalDate withdrawalDate, String typeContract, String state, String supervisor) {
+    public Employee(Long id, Integer document, String documentType, String names, String surnames, Integer phone, String charge, String address, LocalDate admissionDate, LocalDate withdrawalDate, String typeContract, String state, String supervisor) {
         this.id = id;
         this.document = document;
         this.documentType = documentType;
@@ -170,13 +156,6 @@ public class EmployeeEntity {
     }
 
     public List<VacationRequestEntity> getVacation() {
-        return vacation;
+        return getVacation();
     }
-
-    public void setVacation(List<VacationRequestEntity> vacation) {
-        this.vacation = vacation;
-    }
-
 }
-
-
