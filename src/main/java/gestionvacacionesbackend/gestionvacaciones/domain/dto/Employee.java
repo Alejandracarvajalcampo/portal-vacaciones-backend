@@ -1,41 +1,49 @@
 package gestionvacacionesbackend.gestionvacaciones.domain.dto;
 
-import gestionvacacionesbackend.gestionvacaciones.persistence.entities.VacationRequestEntity;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
+
+@Valid
 public class Employee {
 
     private Long id;
 
+    @NotNull(message = "el numero de documento solo puede ser entero no ser nulo ni estar vacio")
     private Integer document;
 
     private String documentType;
-
+    @NotNull(message = "el campo de nombres no puede ser nulo ni estar vacio")
     private String names;
 
     private String surnames;
-
-    private Integer phone;
-
+    @NotEmpty(message = "el telefono no puede ser nulo ni estar vacio")
+    @Size(min = 6, max = 13, message = "el telefono solo acepta minimo 6 caracteres maximo 13")
+    @Pattern(regexp = "^\\+\\d{1,2}\\d{6,13}$", message = "el telefono puede incluir el +57")
+    private String phone;
+    @NotEmpty(message = "el cargo no puede ser nulo ni estar vacio")
     private String charge;
-
+    @NotEmpty(message = "la direccion no puede ser nulo ni estar vacio")
     private String address;
-
+    @NotNull(message = " la fecha de contratacion no puede ser nula ni estar vacia y solo acepta este formato \"yyyy-MM-dd\" ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate admissionDate;
-
-    private LocalDate withdrawalDate;
-
+    @NotEmpty(message = "el tipo de contrato no puede ser nulo ni estar vacio")
     private String typeContract;
-
+    @NotEmpty(message = "el estado no puede ser nulo ni estar vacio")
     private String state;
+    @NotEmpty(message = "el supervisor no puede ser nulo ni estar vacio")
     private String supervisor;
 
     public Employee() {
     }
 
-    public Employee(Long id, Integer document, String documentType, String names, String surnames, Integer phone, String charge, String address, LocalDate admissionDate, LocalDate withdrawalDate, String typeContract, String state, String supervisor) {
+    public Employee(Long id, Integer document, String documentType, String names, String surnames, String phone, String charge, String address, LocalDate admissionDate, String typeContract, String state, String supervisor) {
         this.id = id;
         this.document = document;
         this.documentType = documentType;
@@ -45,7 +53,6 @@ public class Employee {
         this.charge = charge;
         this.address = address;
         this.admissionDate = admissionDate;
-        this.withdrawalDate = withdrawalDate;
         this.typeContract = typeContract;
         this.state = state;
         this.supervisor = supervisor;
@@ -91,11 +98,11 @@ public class Employee {
         this.surnames = surnames;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -123,14 +130,6 @@ public class Employee {
         this.admissionDate = admissionDate;
     }
 
-    public LocalDate getWithdrawalDate() {
-        return withdrawalDate;
-    }
-
-    public void setWithdrawalDate(LocalDate withdrawalDate) {
-        this.withdrawalDate = withdrawalDate;
-    }
-
     public String getTypeContract() {
         return typeContract;
     }
@@ -155,7 +154,4 @@ public class Employee {
         this.supervisor = supervisor;
     }
 
-    public List<VacationRequestEntity> getVacation() {
-        return getVacation();
-    }
 }

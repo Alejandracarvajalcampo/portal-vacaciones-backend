@@ -1,22 +1,34 @@
 package gestionvacacionesbackend.gestionvacaciones.domain.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class VacationRequest {
     private Long id;
+    @NotEmpty(message = "el tipo de solicitud no puede ser nulo ni estar vacio")
     private String requestType;
+    @NotNull(message = "la fecha de inicio de solicitud no ser nulo ni estar vacio")
     private LocalDate startDate;
+    @NotNull(message = "la fecha de fin de solicitud no ser nulo ni estar vacio")
     private LocalDate endDate;
+    @NotNull(message = "la fecha de contratacion no ser nulo ni estar vacio")
     private LocalDate hireDate;
+    @NotNull(message = "los dias a solicitar solo puede ser entero no ser nulo ni estar vacio")
     private Integer days;
+
     private LocalDate date;
+    @NotEmpty(message = "el comentario no puede ser nulo ni estar vacio")
     private String comment;
+    @NotNull(message = "el numero de documento solo puede ser entero no ser nulo ni estar vacio")
     private Integer document;
+    @NotNull(message = "el estado no puede ser nulo ni estar vacio")
+    private String state;
 
     public VacationRequest() {
     }
 
-    public VacationRequest(Long id, String requestType, LocalDate startDate, LocalDate endDate, LocalDate hireDate, Integer days, LocalDate date, String comment, Integer document) {
+    public VacationRequest(Long id, String requestType, LocalDate startDate, LocalDate endDate, LocalDate hireDate, Integer days, LocalDate date, String comment, Integer document,String state) {
         this.id = id;
         this.requestType = requestType;
         this.startDate = startDate;
@@ -26,6 +38,7 @@ public class VacationRequest {
         this.date = date;
         this.comment = comment;
         this.document = document;
+        this.state = state;
 
     }
 
@@ -99,5 +112,13 @@ public class VacationRequest {
 
     public void setDocument(Integer document) {
         this.document = document;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
