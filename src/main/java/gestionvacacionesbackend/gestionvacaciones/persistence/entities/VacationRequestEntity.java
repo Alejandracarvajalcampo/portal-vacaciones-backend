@@ -2,6 +2,7 @@ package gestionvacacionesbackend.gestionvacaciones.persistence.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -25,16 +26,18 @@ public class VacationRequestEntity {
     private LocalDate date;
     @Column(name = "comentario")
     private String comment;
+    @Column(name = "estado")
+    private String state;
 
     @ManyToOne
-//    @JsonBackReference
+    @JsonBackReference
     @JoinColumn(name = "document_id")
     private EmployeeEntity employee;
 
     public VacationRequestEntity() {
     }
 
-    public VacationRequestEntity(Long id, String requestType, LocalDate startDate, LocalDate endDate, LocalDate hireDate, Integer days, LocalDate date, String comment, EmployeeEntity employee) {
+    public VacationRequestEntity(Long id, String requestType, LocalDate startDate, LocalDate endDate, LocalDate hireDate, Integer days, LocalDate date, String comment, String state, EmployeeEntity employee) {
         this.id = id;
         this.requestType = requestType;
         this.startDate = startDate;
@@ -43,6 +46,7 @@ public class VacationRequestEntity {
         this.days = days;
         this.date = date;
         this.comment = comment;
+        this.state = state;
         this.employee = employee;
     }
 
@@ -116,5 +120,13 @@ public class VacationRequestEntity {
 
     public void setEmployee(EmployeeEntity employee) {
         this.employee = employee;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

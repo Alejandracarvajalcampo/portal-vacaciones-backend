@@ -27,21 +27,19 @@ public class EmployeeEntity {
     @Column(name = "apellidos")
     private String surnames;
     @Column(name = "telefono")
-    private Integer phone;
+    private String phone;
     @Column(name = "cargo")
     private String charge;
     @Column(name = "direccion")
     private String address;
     @Column(name = "fecha_ingreso")
     private LocalDate admissionDate;
-    @Column(name = "fecha_retiro")
-    private LocalDate withdrawalDate;
     @Column(name = "tipo_contrato")
     private String typeContract;
     @Column(name = "estado")
     private String state;
     private String supervisor;
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<VacationRequestEntity> vacation;
 
@@ -49,7 +47,7 @@ public class EmployeeEntity {
     public EmployeeEntity() {
     }
 
-    public EmployeeEntity(Long id, Integer document, String documentType, String names, String surnames, Integer phone, String charge, String address, LocalDate admissionDate, LocalDate withdrawalDate, String typeContract, String state, String supervisor) {
+    public EmployeeEntity(Long id, Integer document, String documentType, String names, String surnames, String phone, String charge, String address, LocalDate admissionDate, String typeContract, String state, String supervisor) {
         this.id = id;
         this.document = document;
         this.documentType = documentType;
@@ -59,7 +57,6 @@ public class EmployeeEntity {
         this.charge = charge;
         this.address = address;
         this.admissionDate = admissionDate;
-        this.withdrawalDate = withdrawalDate;
         this.typeContract = typeContract;
         this.state = state;
         this.supervisor = supervisor;
@@ -105,11 +102,11 @@ public class EmployeeEntity {
         this.surnames = surnames;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -135,14 +132,6 @@ public class EmployeeEntity {
 
     public void setAdmissionDate(LocalDate admissionDate) {
         this.admissionDate = admissionDate;
-    }
-
-    public LocalDate getWithdrawalDate() {
-        return withdrawalDate;
-    }
-
-    public void setWithdrawalDate(LocalDate withdrawalDate) {
-        this.withdrawalDate = withdrawalDate;
     }
 
     public String getTypeContract() {
