@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,24 +45,18 @@ public class VacationRequestService {
             throw new Exception("Se deben solicitar las vacaciones con al menos 15 días de anticipación.");
         }
 
-        LocalDate hireDate = vacationRequest.getHireDate();
+        Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findByDocument(vacationRequest.getDocument());
+        EmployeeEntity employeeEntity = employeeEntityOptional.orElseThrow(() -> new Exception("No se encontró ningún empleado con el documento proporcionado."));
+
+        LocalDate hireDate = employeeEntity.getAdmissionDate();
         LocalDate probationEndDate = hireDate.plusMonths(2);
         if (currentDate.isBefore(probationEndDate)) {
             throw new Exception("Debes haber cumplido el periodo de prueba de al menos 2 meses para solicitar anticipos de vacaciones.");
         }
-
         LocalDate anniversaryDate = hireDate.plusYears(1);
         if (currentDate.isBefore(anniversaryDate)) {
             throw new Exception("Las vacaciones se causan después de un año laborado.");
         }
-        int availableDays = calculateAvailableVacationDays(hireDate, currentDate);
-
-        if (daysBetween > availableDays) {
-            throw new Exception("No tienes suficientes días disponibles de vacaciones.");
-        }
-
-        Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findByDocument(vacationRequest.getDocument());
-        EmployeeEntity employeeEntity = employeeEntityOptional.orElseThrow(() -> new Exception("No se encontró ningún empleado con el documento proporcionado."));
 
         VacationRequestEntity vacationRequestEntity = vacationRequestMapper.toVacationRequestEntity(vacationRequest);
         vacationRequestEntity.setEmployee(employeeEntity);
@@ -70,16 +65,7 @@ public class VacationRequestService {
         return vacationRequestMapper.toVacationRequest(vacationRequestEntity);
     }
 
-    public int calculateAvailableVacationDays(LocalDate hireDate, LocalDate currentDate) {
-        long yearsOfService = ChronoUnit.YEARS.between(hireDate, currentDate);
-        int availableDays = 0;
-        if (yearsOfService >= 1) {
-            availableDays = 15; // Ejemplo: 15 días disponibles después de un año laborado
-        }
-        return availableDays;
-    }
-
-    public List<VacationRequest> getAllVacationRequest() {
+    public List<VacationRequest> getAllVacationRequestsSortedByDate() {
         List<VacationRequestEntity> vacationRequestEntities = (List<VacationRequestEntity>) vacationRequestRepository.findAll();
         List<VacationRequest> vacationRequests = new ArrayList<>();
 
@@ -88,7 +74,13 @@ public class VacationRequestService {
             vacationRequests.add(vacationRequest);
         }
 
+        vacationRequests.sort(Comparator.comparing(VacationRequest::getDate));
+
         return vacationRequests;
+    }
+
+    public void deleteRequest(Long id) {
+        vacationRequestRepository.deleteById(id);
     }
 
 

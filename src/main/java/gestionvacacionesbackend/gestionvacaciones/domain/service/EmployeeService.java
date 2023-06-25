@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -40,18 +42,6 @@ public class EmployeeService {
         return employees;
     }
 
-    public Optional<Employee> findEmployeeById(long id) {
-        Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findById(id);
-
-        if (employeeEntityOptional.isPresent()) {
-            EmployeeEntity employeeEntity = employeeEntityOptional.get();
-            Employee employee = employeeMapper.toEmployee(employeeEntity);
-            return Optional.of(employee);
-        }
-
-        return Optional.empty();
-    }
-
     public Optional<Employee> findEmployeeByDocument(Integer document) {
         Optional<EmployeeEntity> employeeEntityOptional = employeeRepository.findByDocument(document);
 
@@ -64,19 +54,19 @@ public class EmployeeService {
         return Optional.empty();
     }
 
-    public Employee updateEmployee(Employee employee, Long id) {
-        Optional<EmployeeEntity> employeeOptional = employeeRepository.findById(id);
+
+    public Employee updateEmployee(Employee updatedEmployee) {
+        Optional<EmployeeEntity> employeeOptional = employeeRepository.findById(updatedEmployee.getId());
 
         if (employeeOptional.isPresent()) {
+            EmployeeEntity existingEmployeeEntity = employeeOptional.get();
 
-
-            EmployeeEntity updatedEmployeeEntity = employeeRepository.save(employeeMapper.toEmployeeEntity(employee));
+            EmployeeEntity updatedEmployeeEntity = employeeRepository.save(employeeMapper.toEmployeeEntity(updatedEmployee));
             return employeeMapper.toEmployee(updatedEmployeeEntity);
         }
 
-        return null; // O puedes lanzar una excepción o devolver un ResponseEntity con un estado de respuesta apropiado
+        return null;
     }
-
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
@@ -91,4 +81,5 @@ public class EmployeeService {
         return new ArrayList<>();
 
     }
+
 }

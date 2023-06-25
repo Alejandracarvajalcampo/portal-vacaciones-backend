@@ -20,21 +20,13 @@ public class VacationRequestController {
     private VacationRequestService vacationRequestService;
 
     @PostMapping("create/")
-    public ResponseEntity<?> crearSolicitudVacaciones(@Valid @RequestBody VacationRequest vacationRequest) {
+    public ResponseEntity<?> createVacationRequest(@Valid @RequestBody VacationRequest vacationRequest) {
         try {
             VacationRequest solicitudCreada = vacationRequestService.createVacationRequest(vacationRequest);
             return new ResponseEntity<>(solicitudCreada, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-    }
-    @GetMapping("calculatedays")
-    public int calculateVacationsDays() {
-        LocalDate admissionDate = LocalDate.of(2020, 1, 1);
-        LocalDate currentDate = LocalDate.now();
-        int availableDays = vacationRequestService.calculateAvailableVacationDays(admissionDate, currentDate);
-
-        return availableDays;
     }
 
     @GetMapping("list/")
