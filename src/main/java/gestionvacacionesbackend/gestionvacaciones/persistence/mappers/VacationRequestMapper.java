@@ -9,9 +9,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VacationRequestMapper {
-    @Mapping(target = "document", ignore = true)
-    List<VacationRequest> toVacationRequest (List<VacationRequestEntity> vacationRequestEntities);
-    VacationRequest toVacationRequest (VacationRequestEntity vacationRequestEntity);
+        @Mapping(target = "document", ignore = true)
+        List<VacationRequest> toVacationRequest (List<VacationRequestEntity> vacationRequestEntities);
 
-    VacationRequestEntity toVacationRequestEntity (VacationRequest vacationRequest);
-}
+        @Mapping(target = "document", ignore = true)
+        VacationRequest toVacationRequest (VacationRequestEntity vacationRequestEntity);
+
+        VacationRequestEntity toVacationRequestEntity (VacationRequest vacationRequest);
+    }
+
