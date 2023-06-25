@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class VacationRequestController {
     private VacationRequestService vacationRequestService;
 
     @PostMapping("create/")
-    public ResponseEntity<?> crearSolicitudVacaciones(@RequestBody VacationRequest vacationRequest) {
+    public ResponseEntity<?> crearSolicitudVacaciones(@Valid @RequestBody VacationRequest vacationRequest) {
         try {
             VacationRequest solicitudCreada = vacationRequestService.createVacationRequest(vacationRequest);
             return new ResponseEntity<>(solicitudCreada, HttpStatus.CREATED);
@@ -29,17 +30,22 @@ public class VacationRequestController {
     }
     @GetMapping("calculatedays")
     public int calculateVacationsDays() {
-        // Llamada al método calculateAvailableVacationDays a través del servicio
-        LocalDate hireDate = LocalDate.of(2020, 1, 1);
+        LocalDate admissionDate = LocalDate.of(2020, 1, 1);
         LocalDate currentDate = LocalDate.now();
-        int availableDays = vacationRequestService.calculateAvailableVacationDays(hireDate, currentDate);
+        int availableDays = vacationRequestService.calculateAvailableVacationDays(admissionDate, currentDate);
 
         return availableDays;
     }
 
     @GetMapping("list/")
-    public List<VacationRequest> getAllVacationRequest() {
-        return vacationRequestService.getAllVacationRequest();
+    public List<VacationRequest> getAllVacationRequestsSortedByDate() {
+        return vacationRequestService.getAllVacationRequestsSortedByDate();
     }
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> deleteRequestId(@PathVariable Long id) {
+        vacationRequestService.deleteRequest(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }

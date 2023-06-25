@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @PostMapping("create/")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+
+    @PostMapping("create")
+    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
         return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
     }
 
@@ -38,19 +40,26 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("search/{id}")
-    public ResponseEntity<Employee> getEmployedById(@PathVariable long id) {
-        Employee employee = employeeService.findEmployeeById(id).orElseThrow(() -> new ResourceNotFoundException(("no existe el empleado con ese id:" + id)));
+    @GetMapping("search/{document}")
+    public ResponseEntity<Employee> getEmployedByDocument(@Valid @PathVariable Integer document) {
+        Employee employee = employeeService.findEmployeeByDocument(document).orElseThrow(() -> new ResourceNotFoundException(("no existe el empleado con ese dpcumento:" + document)));
         return ResponseEntity.ok(employee);
     }
 
-    @PutMapping("update/{id}")
-    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
-        return employeeService.updateEmployee(employee, id);
+    @PutMapping("update")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee updatedEmployee) {
+
+        Employee updated = employeeService.updateEmployee(updatedEmployee);
+
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEmployee(@Valid @PathVariable Long id) {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -66,5 +75,3 @@ public class EmployeeController {
         return new ArrayList<>();
     }
 }
-
-
