@@ -13,6 +13,12 @@ INSERT INTO empleado (id,documento, tipo_documento, nombres, apellidos, telefono
 
 
 INSERT INTO solicitud_vacaciones (tipo_solicitud, fecha_inicio, fecha_fin, dias, comentario, estado,empleado_id, fecha,fecha_contratacion)
-VALUES ('vacaciones', '2023-07-25', '2023-07-30', '5','', 'pendiente','4', '2023-06-25','2021-06-25');
+VALUES ('vacaciones', '2023-07-25', '2023-07-30', '5', 'vacaciones familiares','pendiente','4', '2023-06-25','2021-06-25');
+
+INSERT INTO solicitud_vacaciones (tipo_solicitud, fecha_inicio, fecha_fin, dias, comentario, estado,empleado_id, fecha,fecha_contratacion)
+VALUES ('vacaciones', '2021-05-05', '2021-05-30', '25', 'vacaciones familiares','aprovada','4', '2023-06-25','2021-06-25');
+
+INSERT INTO solicitud_vacaciones (tipo_solicitud, fecha_inicio, fecha_fin, dias, comentario, estado,empleado_id, fecha,fecha_contratacion)
+VALUES ('vacaciones', '2021-08-25', '2021-08-30', '5', 'vacaciones familiares','rechazada','3', '2023-06-25','2020-05-05');
 
 
