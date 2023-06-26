@@ -12,11 +12,9 @@ public class VacationRequest {
     private LocalDate startDate;
     @NotNull(message = "la fecha de fin de solicitud no ser nulo ni estar vacio")
     private LocalDate endDate;
-    @NotNull(message = "la fecha de contratacion no ser nulo ni estar vacio")
     private LocalDate hireDate;
     @NotNull(message = "los dias a solicitar solo puede ser entero no ser nulo ni estar vacio")
     private Integer days;
-
     private LocalDate date;
     @NotEmpty(message = "el comentario no puede ser nulo ni estar vacio")
     private String comment;

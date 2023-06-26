@@ -60,6 +60,7 @@ public class VacationRequestService {
 
         VacationRequestEntity vacationRequestEntity = vacationRequestMapper.toVacationRequestEntity(vacationRequest);
         vacationRequestEntity.setEmployee(employeeEntity);
+        vacationRequestEntity.setHireDate(hireDate);
         vacationRequestEntity = vacationRequestRepository.save(vacationRequestEntity);
 
         return vacationRequestMapper.toVacationRequest(vacationRequestEntity);

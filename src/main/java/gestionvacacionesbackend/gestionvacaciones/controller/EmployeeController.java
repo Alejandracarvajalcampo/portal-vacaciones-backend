@@ -28,8 +28,6 @@ public class EmployeeController {
     private VacationRequestMapper vacationRequestMapper;
     @Autowired
     private EmployeeRepository employeeRepository;
-
-
     @PostMapping("create")
     public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
         return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);

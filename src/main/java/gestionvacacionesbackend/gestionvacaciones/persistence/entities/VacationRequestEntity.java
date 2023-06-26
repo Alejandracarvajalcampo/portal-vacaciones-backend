@@ -31,7 +31,7 @@ public class VacationRequestEntity {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "document_id")
+    @JoinColumn(name = "empleado_id")
     private EmployeeEntity employee;
 
     public VacationRequestEntity() {
