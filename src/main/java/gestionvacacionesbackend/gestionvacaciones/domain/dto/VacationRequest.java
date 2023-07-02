@@ -16,7 +16,6 @@ public class VacationRequest {
     @NotNull(message = "los dias a solicitar solo puede ser entero no ser nulo ni estar vacio")
     private Integer days;
     private LocalDate date;
-    @NotEmpty(message = "el comentario no puede ser nulo ni estar vacio")
     private String comment;
     @NotNull(message = "el numero de documento solo puede ser entero no ser nulo ni estar vacio")
     private Integer document;
